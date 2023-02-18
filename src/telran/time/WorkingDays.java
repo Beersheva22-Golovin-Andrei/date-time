@@ -9,20 +9,27 @@ import java.util.Arrays;
 
 public class WorkingDays implements TemporalAdjuster {
 	
-	private DayOfWeek[] dayOffs;
-	
-	int workingDays;
-	
+	private int [] daysOff;
+	 private int nDays;
 		@Override
 		public Temporal adjustInto(Temporal temporal) {
-			 DayOfWeek dayOfWeek = DayOfWeek.of(temporal.get(ChronoField.DAY_OF_WEEK)); 
-			 int firstDayOffs = (int)Arrays.stream(dayOffs).filter(day -> dayOfWeek.getValue()<day.getValue()).count();
-			 int allDays = ((int)(workingDays/7))* dayOffs.length + firstDayOffs + workingDays;
-			return temporal.plus(allDays, ChronoUnit.DAYS);
-		}
+			int count = 0;
+			if (daysOff.length < DayOfWeek.values().length) {
+				while (count != nDays) {
+					temporal = temporal.plus(1, ChronoUnit.DAYS);
+					if (!contains(temporal.get(ChronoField.DAY_OF_WEEK))) {
+						count++;
+					}
+				}
+			}
 		
-		public WorkingDays(DayOfWeek[] dayOffs, int workingDays) {
-			this.dayOffs = dayOffs;
-			this.workingDays = workingDays;
+			return temporal;
+		}
+		private boolean contains(int day) {
+			return Arrays.stream(daysOff).anyMatch(d -> d == day);
+			
+		}
+		public WorkingDays(DayOfWeek[] dayOffs, int nDays) {
+			daysOff = Arrays.stream(dayOffs).mapToInt(d -> d.getValue()).toArray();
 		}
 }

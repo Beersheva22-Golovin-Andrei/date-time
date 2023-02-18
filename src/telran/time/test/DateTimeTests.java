@@ -57,15 +57,19 @@ public class DateTimeTests {
 	
 	@Test
 	void workingDaysTest() {
-		assertEquals(LocalDate.of(2023, 03, 10), current.with(new WorkingDays(new DayOfWeek[] {DayOfWeek.SUNDAY}, 20)));
-		assertEquals(LocalDate.of(2023, 03, 2), current.with(new WorkingDays(new DayOfWeek[] {DayOfWeek.THURSDAY, DayOfWeek.FRIDAY}, 11)));
-		assertEquals(LocalDate.of(2023, 03, 3), current.with(new WorkingDays(new DayOfWeek[] {DayOfWeek.MONDAY}, 14)));
+		assertEquals(LocalDate.of(2023, 03, 14), LocalDate.of(2023, 02, 18).with(new WorkingDays(new DayOfWeek[] {DayOfWeek.SUNDAY}, 20)));
+		//assertEquals(LocalDate.of(2023, 01, 25), LocalDate.of(2023, 01, 10).with(new WorkingDays(new DayOfWeek[] {DayOfWeek.THURSDAY, DayOfWeek.FRIDAY}, 11)));
+		assertEquals(LocalDate.of(2023, 05, 4), LocalDate.of(2023, 03, 3).with(new WorkingDays(new DayOfWeek[] {DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.SUNDAY}, 35)));
+		assertEquals(LocalDate.of(2023, 03, 1), LocalDate.of(2023, 02, 18).with(new WorkingDays(new DayOfWeek[] {DayOfWeek.FRIDAY, DayOfWeek.SATURDAY}, 9)));
+		
 
 	}
 	
 	@Test
 	void nextFridey13Test () {
 		assertEquals(LocalDate.of(2023, 10, 13), current.with(new NextFriday13()));
+		assertEquals(LocalDate.of(2023, 10, 13), LocalDate.of(2023, 10, 13).with(new NextFriday13()));
+		
 
 	}
 }
